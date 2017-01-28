@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Pomodoro Clock</title>
+	<link href="https://fonts.googleapis.com/css?family=Oswald|Shojumaru" rel="stylesheet">
+	<link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+	<link rel="stylesheet" href="css/style.css"> </head>
+
+<body>
+	<div class="container-fluid main">
+		<h1>Pomodoro<br>Clock</h1>
+		<div class="row controls">
+			<div class="col-xs-6 sessionLength">
+				<p>Session
+					<br>Length</p>
+				<button class="btn-sm" id="sessionMinus">-</button> <span id="sessionValue">25</span>
+				<button class="btn-sm" id="sessionPlus">+</button>
+			</div>
+			<div class="col-xs-6 breakLength">
+				<p>Break
+					<br>Length</p>
+				<button class="btn-sm" id="breakMinus">-</button> <span id="breakValue">5</span>
+				<button class="btn-sm" id="breakPlus">+</button>
+			</div>
+		</div>
+		<div class="row clock">
+			<h3 id="timerLabel">Session Time Remaining:</h3>
+			<h2 id="timer">25</h2> </div>
+		<h4>To illustrate functionality, this Pomodoro Clock operates in seconds, not minutes.</h4> </div>
+
+</body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script src="js/index.js"></script>
+</html>
