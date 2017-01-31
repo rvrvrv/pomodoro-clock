@@ -19,7 +19,7 @@ html {
 }
 
 body {
-	background: #340000 url('https://i.imgsafe.org/b495b93ce5.png') no-repeat fixed center;
+	background: #340000 url('https://i.imgsafe.org/b495b93ce5.png') center /cover no-repeat fixed;
 	min-height: 100vw;
 	color: white;
 	text-align: center;
@@ -135,9 +135,6 @@ h4 {
 		margin: 3% 0 10% 0;
 		min-height: 30vh;
 	}
-	h4 {
-		display: none;
-	}
 }
 
 @media screen and (orientation: landscape) and (max-width: 768px) {
@@ -155,12 +152,12 @@ h4 {
 		content: ' ';
 	}
 	.controls {
-		margin: -10% 0 5% 0;
+		margin: -5% 0 5% 0;
 	}
 	.clock {
-		margin: -5% 5% 0 5%;
+		margin: 0 5%;
 		padding: 0;
-		max-height: 40vh;
+		max-height: 48vh;
 	}
 	#timerLabel {
 		margin: 1% 0 2% 0;
