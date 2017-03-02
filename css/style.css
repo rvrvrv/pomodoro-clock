@@ -21,7 +21,7 @@ html {
 body {
 	background: #340000 url('https://i.imgsafe.org/b495b93ce5.png') center /cover no-repeat fixed;
 	min-height: 100vw;
-	color: white;
+	color: #fff;
 	text-align: center;
 	font-family: 'Oswald', sans-serif;
 }
@@ -90,8 +90,8 @@ h1 {
 	margin: 10% 5%;
 	cursor: pointer;
 	border-radius: 40px;
-	background: black;
-	box-shadow: 0 0 20px black;
+	background: #000;
+	box-shadow: 0 0 20px #000;
 	-webkit-transition: .03s;
 	transition: .03s;
 }
