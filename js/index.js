@@ -1,22 +1,68 @@
 /*jshint browser: true, esversion: 6*/
-/* global $ */
-var ring = new Audio('https://a.clyp.it/j4hjat4o.mp3');
-var percent = 1;
-$(document).ready(function () {
+/* global $, console */
+
+$(document).ready(() => {
+	//Global vars
+	const ring = new Audio('https://a.clyp.it/j4hjat4o.mp3');
+	var percent = 1;
 	var timerCount;
+	var mode;
+	var timeLeft;
+	var sessionLength;
+	var breakLength;
 	var sessChanged = false;
 	var breakChanged = false;
 	var active = false;
-	var mode = $('#timerLabel').text();
-	var timeLeft = $('#timer').text();
-	var sessionLength = $('#sessionValue').text();
-	var breakLength = $('#breakValue').text();
+
+
+	//Timer function
+	function runTimer() {
+		mode = $('#timerLabel').text();
+		sessionLength = $('#sessionValue').text();
+		breakLength = $('#breakValue').text();
+
+		//When time on clock, count down and animate
+		if (timeLeft > 0) {
+			//Counter
+			timeLeft--;
+			$('#timer').text(timeLeft);
+			//Animation
+			if (mode == 'Session Time Remaining:') {
+				percent = (100 - (timeLeft / sessionLength) * 100);
+				$('.clock').css('background', `linear-gradient(to top, #2b0208 0%, black ${percent}%)`);
+			} else {
+				percent = (100 - (timeLeft / breakLength) * 100);
+				$('.clock').css('background', `linear-gradient(#20591e 0%, black ${percent}%)`);
+			}
+		} else {
+			//When time reaches zero, switch modes
+			ring.play();
+			active = false;
+			clearInterval(timerCount);
+			$('.clock').fadeTo(200, 0, () => {
+				$('.clock').css('background', 'black');
+				if (mode == 'Session Time Remaining:') {
+					$('#timerLabel').text('Break Time Remaining:');
+					$('#timer').text(breakLength);
+					timeLeft = breakLength;
+				} else {
+					//Switch to session, fade smoothly
+					$('#timerLabel').text('Session Time Remaining:');
+					$('#timer').text(sessionLength);
+					timeLeft = sessionLength;
+				}
+				active = true;
+				timerCount = setInterval(runTimer, 1000);
+			}).fadeTo(200, 1);
+		}
+	}
+
 	//Session Length: Minus Button
-	$('#sessionMinus').click(function () {
+	$('#sessionMinus').click(() => {
 		//Only allow changes when not running,
 		//or on break
 		if (!active || $('#timerLabel').text() == 'Break Time Remaining:') {
-			var sessionLength = $('#sessionValue').text();
+			sessionLength = $('#sessionValue').text();
 			if (sessionLength > 1) {
 				sessionLength--;
 				sessChanged = true;
@@ -24,22 +70,24 @@ $(document).ready(function () {
 			}
 		}
 	});
+
 	//Session Length: Plus Button
-	$('#sessionPlus').click(function () {
+	$('#sessionPlus').click(() => {
 		//Only allow changes when not running,
 		//or on break
-		if (!active || $('#timerLabel').text() == 'Break Time Remaining:') {
-			var sessionLength = $('#sessionValue').text();
+		if (!active || mode == 'Break Time Remaining:') {
+			sessionLength = $('#sessionValue').text();
 			sessionLength++;
 			sessChanged = true;
 			$('#sessionValue').text(sessionLength);
 		}
 	});
+
 	//Break Length: Minus Button
-	$('#breakMinus').click(function () {
+	$('#breakMinus').click(() => {
 		//Only allow changes when not running,
 		//or in session (not on break)
-		if (!active || $('#timerLabel').text() == 'Session Time Remaining:') {
+		if (!active || mode == 'Session Time Remaining:') {
 			var breakLength = $('#breakValue').text();
 			if (breakLength > 1) {
 				breakLength--;
@@ -48,19 +96,21 @@ $(document).ready(function () {
 			}
 		}
 	});
+
 	//Break Length: Plus Button
-	$('#breakPlus').click(function () {
+	$('#breakPlus').click(() => {
 		//Only allow changes when not running,
 		//or in session (not on break)
-		if (!active || $('#timerLabel').text() == 'Session Time Remaining:') {
-			var breakLength = $('#breakValue').text();
+		if (!active || mode == 'Session Time Remaining:') {
+			breakLength = $('#breakValue').text();
 			breakLength++;
 			breakChanged = true;
 			$('#breakValue').text(breakLength);
 		}
 	});
+
 	//Timer: Start/Stop Button
-	$('.clock').click(function () {
+	$('.clock').click(() => {
 		mode = $('#timerLabel').text();
 		timeLeft = $('#timer').text();
 		sessionLength = $('#sessionValue').text();
@@ -93,48 +143,5 @@ $(document).ready(function () {
 			clearInterval(timerCount);
 		}
 	});
-	//Actual Timer Function
-	function runTimer() {
-		sessionLength = $('#sessionValue').text();
-		breakLength = $('#breakValue').text();
-		mode = $('#timerLabel').text();
-		//When time on clock, count down and animate
-		if (timeLeft > 0) {
-			//Counter
-			timeLeft--;
-			$('#timer').text(timeLeft);
-			//Animation
-			if (mode == 'Session Time Remaining:') {
-				percent = (100 - (timeLeft / sessionLength) * 100);
-				$('.clock').css('background', `linear-gradient(to top, #2b0208 0%, black ${percent}%)`);
-			}
-			else {
-				percent = (100 - (timeLeft / breakLength) * 100);
-				$('.clock').css('background', `linear-gradient(#20591e 0%, black ${percent}%)`);
-			}
-		}
-		else {
-			//When time reaches zero, switch modes
-			ring.play();
-			active = false;
-			clearInterval(timerCount);
-			$('.clock').animate({opacity: 0}, 200, function () {
-				$('.clock').css('background', 'black');
-				if (mode == 'Session Time Remaining:') {
-					//Switch to break, fade smoothly
-					$('#timerLabel').fadeOut(100).text('Break Time Remaining:').fadeIn(100);
-					$('#timer').fadeOut(100).text(breakLength).fadeIn(100);
-					timeLeft = breakLength;
-				}
-				else {
-					//Switch to session, fade smoothly
-					$('#timerLabel').fadeOut(100).text('Session Time Remaining:').fadeIn(100);
-					$('#timer').fadeOut(100).text(sessionLength).fadeIn(100);
-					timeLeft = sessionLength;
-				}
-				active = true;
-				timerCount = setInterval(runTimer, 1000);
-			}).animate({opacity: 1}, 200);
-		}
-	}
+
 });
