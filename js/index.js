@@ -10,10 +10,9 @@ $(document).ready(() => {
 	var timeLeft;
 	var sessionLength;
 	var breakLength;
-	var sessChanged = false;
+	var sessionChanged = false;
 	var breakChanged = false;
 	var active = false;
-
 
 	//Timer function
 	function runTimer() {
@@ -34,79 +33,86 @@ $(document).ready(() => {
 				percent = (100 - (timeLeft / breakLength) * 100);
 				$('.clock').css('background', `linear-gradient(#20591e 0%, black ${percent}%)`);
 			}
-		} else {
-			//When time reaches zero, switch modes
-			ring.play();
-			active = false;
-			clearInterval(timerCount);
-			$('.clock').fadeTo(200, 0, () => {
-				$('.clock').css('background', 'black');
-				if (mode == 'Session Time Remaining:') {
-					$('#timerLabel').text('Break Time Remaining:');
-					$('#timer').text(breakLength);
-					timeLeft = breakLength;
-				} else {
-					//Switch to session, fade smoothly
-					$('#timerLabel').text('Session Time Remaining:');
-					$('#timer').text(sessionLength);
-					timeLeft = sessionLength;
-				}
-				active = true;
-				timerCount = setInterval(runTimer, 1000);
-			}).fadeTo(200, 1);
-		}
+		} else switchModes();
+	}
+
+	//Update UI and timer to reflect new mode
+	function switchModes() {
+		ring.play();
+		active = false;
+		clearInterval(timerCount);
+		$('.clock').fadeTo(200, 0, () => {
+			$('.clock').css('background', 'black');
+			if (mode == 'Session Time Remaining:') {
+				$('#timerLabel').text('Break Time Remaining:');
+				$('#timer').text(breakLength);
+				disableBtns('break');
+				enableBtns('session');
+				timeLeft = breakLength;
+			} else {
+				$('#timerLabel').text('Session Time Remaining:');
+				$('#timer').text(sessionLength);
+				disableBtns('session');
+				enableBtns('break');
+				timeLeft = sessionLength;
+			}
+			active = true;
+			timerCount = setInterval(runTimer, 1000);
+		}).fadeTo(200, 1);
+	}
+
+	//Enable group of buttons
+	function enableBtns(group) {
+		//If no group provided, enable all buttons
+		if (!group) $('.btn-sm').removeAttr('disabled');
+		//Otherwise, enable specific group of buttons
+		else $(`.${group}Btn`).removeAttr('disabled');
+	}
+
+	//Disable group of buttons
+	function disableBtns(group) {
+		//If no group provided, disable all buttons
+		if (!group) $('.btn-sm').attr('disabled', 'disabled');
+		//Otherwise, disable specific group of buttons
+		else $(`.${group}Btn`).attr('disabled', 'disabled');
 	}
 
 	//Session Length: Minus Button
 	$('#sessionMinus').click(() => {
-		//Only allow changes when not running,
-		//or on break
-		if (!active || $('#timerLabel').text() == 'Break Time Remaining:') {
-			sessionLength = $('#sessionValue').text();
-			if (sessionLength > 1) {
-				sessionLength--;
-				sessChanged = true;
-				$('#sessionValue').text(sessionLength);
-			}
+		sessionLength = $('#sessionValue').text();
+		//Keep session length above 0
+		if (sessionLength > 1) {
+			sessionLength--;
+			sessionChanged = true;
+			$('#sessionValue').text(sessionLength);
 		}
 	});
 
 	//Session Length: Plus Button
 	$('#sessionPlus').click(() => {
-		//Only allow changes when not running,
-		//or on break
-		if (!active || mode == 'Break Time Remaining:') {
-			sessionLength = $('#sessionValue').text();
-			sessionLength++;
-			sessChanged = true;
-			$('#sessionValue').text(sessionLength);
-		}
+		sessionLength = $('#sessionValue').text();
+		sessionLength++;
+		sessionChanged = true;
+		$('#sessionValue').text(sessionLength);
 	});
 
 	//Break Length: Minus Button
 	$('#breakMinus').click(() => {
-		//Only allow changes when not running,
-		//or in session (not on break)
-		if (!active || mode == 'Session Time Remaining:') {
-			var breakLength = $('#breakValue').text();
-			if (breakLength > 1) {
-				breakLength--;
-				breakChanged = true;
-				$('#breakValue').text(breakLength);
-			}
+		breakLength = $('#breakValue').text();
+		//Keep break length above 0
+		if (breakLength > 1) {
+			breakLength--;
+			breakChanged = true;
+			$('#breakValue').text(breakLength);
 		}
 	});
 
 	//Break Length: Plus Button
 	$('#breakPlus').click(() => {
-		//Only allow changes when not running,
-		//or in session (not on break)
-		if (!active || mode == 'Session Time Remaining:') {
-			breakLength = $('#breakValue').text();
-			breakLength++;
-			breakChanged = true;
-			$('#breakValue').text(breakLength);
-		}
+		breakLength = $('#breakValue').text();
+		breakLength++;
+		breakChanged = true;
+		$('#breakValue').text(breakLength);
 	});
 
 	//Timer: Start/Stop Button
@@ -120,10 +126,11 @@ $(document).ready(() => {
 		if (!active) {
 			//If session value changed while in session (paused),
 			//reset clock at new value
-			if (mode == 'Session Time Remaining:' && sessChanged) {
-				sessChanged = false;
+			if (mode == 'Session Time Remaining:' && sessionChanged) {
+				sessionChanged = false;
 				$('#timer').text(sessionLength);
 				timeLeft = sessionLength;
+				disableBtns('session');
 			}
 			//If break value changed while on break (paused),
 			//reset clock at new value
@@ -131,6 +138,7 @@ $(document).ready(() => {
 				breakChanged = false;
 				$('#timer').text(breakLength);
 				timeLeft = breakLength;
+				disableBtns('break');
 			}
 			active = true;
 			timerCount = setInterval(runTimer, 1000);
@@ -138,8 +146,9 @@ $(document).ready(() => {
 		//If clock is running, pause it
 		else {
 			active = false;
-			sessChanged = false;
+			sessionChanged = false;
 			breakChanged = false;
+			enableBtns();
 			clearInterval(timerCount);
 		}
 	});
