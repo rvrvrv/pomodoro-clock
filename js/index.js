@@ -20,12 +20,12 @@ $(document).ready(() => {
 		sessionLength = $('#sessionValue').text();
 		breakLength = $('#breakValue').text();
 
-		//When time on clock, count down and animate
+		//When time remains, count down and animate
 		if (timeLeft > 0) {
 			//Counter
 			timeLeft--;
 			$('#timer').text(timeLeft);
-			//Animation
+			//Gradient animation
 			if (mode == 'Session Time Remaining:') {
 				percent = (100 - (timeLeft / sessionLength) * 100);
 				$('.clock').css('background', `linear-gradient(to top, #2b0208 0%, black ${percent}%)`);
