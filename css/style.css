@@ -18,7 +18,7 @@ html {
 }
 
 body {
-	background: #340000 url(https://i.imgsafe.org/b495b93ce5.png) center /cover no-repeat fixed;
+	background: #340000 url('https://res.cloudinary.com/rvrvrv/image/upload/v1499620752/pom.jpg') center / cover no-repeat fixed;
 	color: #fff;
 	font: 26px Montserrat, sans-serif;
 	letter-spacing: -1px;
