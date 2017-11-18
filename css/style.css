@@ -1,123 +1,120 @@
 html {
-	-moz-user-select: none;
-	-ms-user-select: none;
-	-webkit-touch-callout: none;
 	-webkit-user-select: none;
-	box-sizing: border-box;
-	cursor: default;
-	user-select: none;
-}
-
-*,
-:before,
-:after {
-	-webkit-transition: all .2s ease-out;
-	box-sizing: inherit;
-	overflow: hidden;
-	transition: all .2s ease-out;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
+  -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
+  overflow: hidden;
 }
 
 body {
-	background: #340000 url(https://i.imgsafe.org/b495b93ce5.png) center /cover no-repeat fixed;
+	background: #340000 url('https://rvrvrv.github.io/img/tomatoes.jpg') center / cover no-repeat fixed;
 	color: #fff;
-	font: 26px Montserrat, sans-serif;
-	letter-spacing: -1px;
+	font: 26px 'Barlow Semi Condensed', sans-serif;
 	min-height: 100vw;
+  min-width: 10em;
 	text-align: center;
 }
 
 .main {
-	max-width: 600px;
+	max-width: 800px;
+  margin: 0 auto;
 }
 
 h1 {
 	font: 2em/95% Shojumaru, cursive;
-	margin: 1% 0 5%;
+	margin: 0 0 -2% 0;
 }
 
 .controls {
-	white-space: nowrap;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
 
-.innerControls {
-	-ms-flex-align: center;
-	-ms-flex-pack: center;
-	-webkit-box-align: center;
-	-webkit-box-pack: center;
-	align-items: center;
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	justify-content: center;
-	line-height: 1.9em;
+.controls-inner {
+  white-space: nowrap;
 }
 
-#sessionValue,
-#breakValue {
-	font-size: 2em;
-	height: .9em;
-	width: 1.4em;
+.controls-inner span {
+  display: inline-block;
+  font-size: 2em;
+  width: 1em;
+  height: 1em;
 }
 
-.btn-sm {
-	-webkit-transition: .1s;
-	background-color: #2b0208;
-	border: 3px outset #ffae8a;
-	border-radius: 20px;
-	font-size: 2.3em;
-	line-height: .8em;
-	outline: none!important;
-	transition: .1s;
-	width: 50px;
+button {
+	background: #2b0208;
+  color: #fff;
+	border: 2px solid #911414;
+	border-radius: 10%;
+	font-size: 2.1em;
+	line-height: .95em;
+	outline: none;
+	width: .9em;
+  cursor: pointer;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
 }
 
-#sessionPlus,
-#breakPlus {
-	padding-left: 8px;
+button:active {
+  border: 2px solid #a33;
+}
+button:disabled {
+  background: #000;
+  color: #ccc;
+  border: 2px solid #111;
 }
 
 .clock {
-	-webkit-transition: .03s;
 	background: #000;
 	border-radius: 40px;
-	box-shadow: 0 0 20px #000;
+	box-shadow: 0 0 25px #000;
 	cursor: pointer;
 	margin: 5%;
 	min-height: 50vh;
-	transition: .03s;
+	-webkit-transition: background 0.2s, color 0.3s, -webkit-transform 0.4s ease-out;
+	transition: background 0.2s, color 0.3s, -webkit-transform 0.4s ease-out;
+	transition: background 0.2s, color 0.3s, transform 0.4s ease-out;
+	transition: background 0.2s, color 0.3s, transform 0.4s ease-out, -webkit-transform 0.4s ease-out;
 }
 
 .clock:active {
-	-webkit-transform: scale(0.98);
-	transform: scale(0.98);
+	-webkit-transform: scale(0.99);
+	        transform: scale(0.99);
 }
 
-#timerLabel {
-	padding-bottom: 2px;
+button:hover,
+.clock:hover {
+	color: #ffae8a;
 }
 
-#timer {
+.clock h3 {
+  font-size: 1em;
+  padding-top: 0.2em;
+}
+
+.clock h1 {
 	font-size: 7em;
-	margin-top: 12vh;
+  margin-top: 12vh;
 }
 
 footer {
-	font-size: .6em;
+	font-size: .8em;
 	margin-top: 5vh;
-}
-
-.btn-sm:active,
-.clock:hover,
-h1:hover {
-	color: #ffae8a;
 }
 
 /* For mobile devices */
 
-@media screen and orientation portrait and max-height 768px {
+@media screen and (orientation: portrait) and (max-height: 768px) {
 	body {
 		font-size: 22px;
 	}
+  .controls p {
+    margin: 0.6em 0 0.1em 0;
+  }
 	.clock {
 		min-height: 60vh;
 	}
@@ -126,21 +123,21 @@ h1:hover {
 	}
 }
 
-@media screen and orientation landscape and max-width 768px {
+@media screen and (orientation: landscape) and (max-width: 768px) {
 	body {
 		font-size: 20px;
 	}
 	br,
 	br:after {
-		content: ' '!important;
+		content: ' ' !important;
 	}
 	.controls {
-		margin: -4% 0;
+		margin: 0 0 -3% 0;
 	}
-	#timerLabel {
-		margin: 1% 0 -5%;
-	}
-	footer {
-		display: none;
+  .controls p {
+    margin-bottom: 0.1em;
+  }
+	.clock h3 {
+		margin-bottom: -5%;
 	}
 }
