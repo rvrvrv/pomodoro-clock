@@ -53,7 +53,7 @@ button {
 	font-size: 2.1em;
 	line-height: .95em;
 	outline: none;
-	width: .9em;
+  width: .9em;
   cursor: pointer;
   -webkit-transition: 0.2s;
   transition: 0.2s;
@@ -62,23 +62,25 @@ button {
 button:active {
   border: 2px solid #a33;
 }
+
 button:disabled {
   background: #000;
   color: #ccc;
   border: 2px solid #111;
+  cursor: default;
 }
 
 .clock {
-	background: #000;
+	background: hsl(0, 100%, 0%);
 	border-radius: 40px;
 	box-shadow: 0 0 25px #000;
 	cursor: pointer;
 	margin: 5%;
 	min-height: 50vh;
-	-webkit-transition: background 0.2s, color 0.3s, -webkit-transform 0.4s ease-out;
-	transition: background 0.2s, color 0.3s, -webkit-transform 0.4s ease-out;
-	transition: background 0.2s, color 0.3s, transform 0.4s ease-out;
-	transition: background 0.2s, color 0.3s, transform 0.4s ease-out, -webkit-transform 0.4s ease-out;
+	-webkit-transition: background 0.5s linear, color 0.3s, -webkit-transform 0.4s ease-out;
+	transition: background 0.5s linear, color 0.3s, -webkit-transform 0.4s ease-out;
+	transition: background 0.5s linear, color 0.3s, transform 0.4s ease-out;
+	transition: background 0.5s linear, color 0.3s, transform 0.4s ease-out, -webkit-transform 0.4s ease-out;
 }
 
 .clock:active {
@@ -86,7 +88,7 @@ button:disabled {
 	        transform: scale(0.99);
 }
 
-button:hover,
+button:hover:enabled,
 .clock:hover {
 	color: #ffae8a;
 }
@@ -99,6 +101,7 @@ button:hover,
 .clock h1 {
 	font-size: 7em;
   margin-top: 12vh;
+  text-shadow: 0 0.2em 0.2em rgba(0,0,0,0.5);
 }
 
 footer {
